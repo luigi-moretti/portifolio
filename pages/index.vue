@@ -7,11 +7,20 @@
             <base-col>
               <h1 class="text-h2">
                 <strong>Olá,</strong><br>
-                <span>Eu me chamo <strong>Luigi!</strong> :)</span>
+                <span>Eu me chamo <strong>Luigi!</strong>
+                  <span>{{ title.typeValue }}</span>
+                  <span class="blinking-cursor-title">|</span>
+                  <span class="cursor" :class="{ typing: title.typeStatus }">&nbsp;</span>
+                </span>
               </h1>
               <p class="text-subtitle-1 mt-3">
-                Sou desenvolvedor front-end e UX designer. Gosto de resolver
-                problemas e criar soluções que impactam.
+                Sou desenvolvedor
+                <span>{{ subtitle.typeValue }}</span>
+                <span class="blinking-cursor">|</span>
+                <span class="cursor" :class="{ typing: subtitle.typeStatus }">&nbsp;</span>
+              </p>
+              <p class="text-subtitle-1 mt-3">
+                Gosto de resolver problemas e criar soluções que impactam.
               </p>
             </base-col>
           </base-row>
@@ -111,7 +120,150 @@ export default Vue.extend({
         title: 'Projeto 07',
         image: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg'
       }
-    ]
-  })
+    ],
+    title: {
+      typeValue: '',
+      typeStatus: false,
+      displayTextArray: ['🤓️', '👨‍💻️', '☕️', '🇧🇷️'],
+      typingSpeed: 100,
+      erasingSpeed: 100,
+      newTextDelay: 2000,
+      displayTextArrayIndex: 0,
+      charIndex: 0
+    },
+    subtitle: {
+      typeValue: '',
+      typeStatus: false,
+      displayTextArray: ['Front-end Developer', 'UX Designer', 'Freelancer'],
+      typingSpeed: 100,
+      erasingSpeed: 100,
+      newTextDelay: 2000,
+      displayTextArrayIndex: 0,
+      charIndex: 0
+    }
+  }),
+  created () {
+    setTimeout(this.typeTextSubtitle, this.subtitle.newTextDelay + 200)
+    setTimeout(this.typeTextTitle, this.title.newTextDelay + 200)
+  },
+  methods: {
+    typeTextSubtitle () {
+      if (this.subtitle.charIndex < this.subtitle.displayTextArray[this.subtitle.displayTextArrayIndex].length) {
+        if (!this.subtitle.typeStatus) { this.subtitle.typeStatus = true }
+        this.subtitle.typeValue += this.subtitle.displayTextArray[this.subtitle.displayTextArrayIndex].charAt(this.subtitle.charIndex)
+        this.subtitle.charIndex += 1
+        setTimeout(this.typeTextSubtitle, this.subtitle.typingSpeed)
+      } else {
+        this.subtitle.typeStatus = false
+        setTimeout(this.eraseTextSubtitle, this.subtitle.newTextDelay)
+      }
+    },
+    eraseTextSubtitle () {
+      if (this.subtitle.charIndex > 0) {
+        if (!this.subtitle.typeStatus) { this.subtitle.typeStatus = true }
+        this.subtitle.typeValue = this.subtitle.displayTextArray[this.subtitle.displayTextArrayIndex].substring(0, this.subtitle.charIndex - 1)
+        this.subtitle.charIndex -= 1
+        setTimeout(this.eraseTextSubtitle, this.subtitle.erasingSpeed)
+      } else {
+        this.subtitle.typeStatus = false
+        this.subtitle.displayTextArrayIndex += 1
+        if (this.subtitle.displayTextArrayIndex >= this.subtitle.displayTextArray.length) {
+          this.subtitle.displayTextArrayIndex = 0
+        }
+        setTimeout(this.typeTextSubtitle, this.subtitle.typingSpeed + 1000)
+      }
+    },
+    typeTextTitle () {
+      if (this.title.charIndex < this.title.displayTextArray[this.title.displayTextArrayIndex].length) {
+        if (!this.title.typeStatus) { this.title.typeStatus = true }
+        this.title.typeValue = this.title.displayTextArray[this.title.displayTextArrayIndex]
+        this.title.charIndex += 1
+        setTimeout(this.typeTextTitle, this.title.typingSpeed)
+      } else {
+        this.title.typeStatus = false
+        setTimeout(this.eraseTextTitle, this.title.newTextDelay)
+      }
+    },
+    eraseTextTitle () {
+      if (this.title.charIndex > 0) {
+        if (!this.title.typeStatus) { this.title.typeStatus = true }
+        this.title.typeValue = ''
+        this.title.charIndex -= 1
+        setTimeout(this.eraseTextTitle, this.title.erasingSpeed)
+      } else {
+        this.title.typeStatus = false
+        this.title.displayTextArrayIndex += 1
+        if (this.title.displayTextArrayIndex >= this.title.displayTextArray.length) {
+          this.title.displayTextArrayIndex = 0
+        }
+        setTimeout(this.typeTextTitle, this.title.typingSpeed + 1000)
+      }
+    }
+  }
 })
 </script>
+<style scoped>
+.blinking-cursor {
+  font-size: 1rem;
+  color: #2c3e50;
+  -webkit-animation: 1s blink step-end infinite;
+  -moz-animation: 1s blink step-end infinite;
+  -ms-animation: 1s blink step-end infinite;
+  -o-animation: 1s blink step-end infinite;
+  animation: 1s blink step-end infinite;
+}
+.blinking-cursor-title {
+  font-size: 3.75rem;
+  color: #2c3e50;
+  -webkit-animation: 1s blink step-end infinite;
+  -moz-animation: 1s blink step-end infinite;
+  -ms-animation: 1s blink step-end infinite;
+  -o-animation: 1s blink step-end infinite;
+  animation: 1s blink step-end infinite;
+}
+@keyframes blink {
+  from,
+  to {
+    color: transparent;
+  }
+  50% {
+    color: #2c3e50;
+  }
+}
+@-moz-keyframes blink {
+  from,
+  to {
+    color: transparent;
+  }
+  50% {
+    color: #2c3e50;
+  }
+}
+@-webkit-keyframes blink {
+  from,
+  to {
+    color: transparent;
+  }
+  50% {
+    color: #2c3e50;
+  }
+}
+@-ms-keyframes blink {
+  from,
+  to {
+    color: transparent;
+  }
+  50% {
+    color: #2c3e50;
+  }
+}
+@-o-keyframes blink {
+  from,
+  to {
+    color: transparent;
+  }
+  50% {
+    color: #2c3e50;
+  }
+}
+</style>
