@@ -7,7 +7,7 @@
       <v-toolbar-title v-text="title" />
       <v-spacer />
     </v-app-bar>
-    <v-main>
+    <v-main class="background_main_color">
       <v-container>
         <Nuxt />
       </v-container>
@@ -32,3 +32,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .background_main_color {
+    background-color: rgba(243, 235, 233, 0.5);
+  }
+</style>

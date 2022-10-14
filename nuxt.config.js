@@ -1,6 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  target: 'static', // default is 'server'
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - portifolio',
@@ -34,7 +35,8 @@ export default {
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+    'nuxt-graphql-request'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -51,6 +53,51 @@ export default {
     baseURL: '/'
   },
 
+  graphql: {
+    /**
+     * An Object of your GraphQL clients
+     */
+    clients: {
+      default: {
+        /**
+         * The client endpoint url
+         */
+        endpoint: process.env.DATO_BASE_URL,
+        /**
+         * Per-client options overrides
+         * See: https://github.com/prisma-labs/graphql-request#passing-more-options-to-fetch
+         */
+        options: {
+          headers: {
+            authorization: `Bearer ${process.env.DATO_TOKEN}`
+          }
+        }
+      },
+      secondClient: {
+        // ...client config
+      }
+      // ...your other clients
+    },
+
+    /**
+     * Options
+     * See: https://github.com/prisma-labs/graphql-request#passing-more-options-to-fetch
+     */
+    options: {},
+
+    /**
+     * Optional
+     * default: true (this includes cross-fetch/polyfill before creating the graphql client)
+     */
+    useFetchPolyfill: true,
+
+    /**
+     * Optional
+     * default: false (this includes graphql-tag for node_modules folder)
+     */
+    includeNodeModules: true
+  },
+
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
@@ -64,6 +111,15 @@ export default {
     theme: {
       dark: false,
       themes: {
+        light: {
+          primary: '#3d405b',
+          accent: '#457b9d',
+          secondary: '#d0b8ac',
+          info: '#a8dadc',
+          warning: colors.amber.base,
+          error: '#e07a5f',
+          success: '#81b29a'
+        },
         dark: {
           primary: colors.blue.darken2,
           accent: colors.grey.darken3,
