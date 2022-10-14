@@ -41,11 +41,16 @@
           </base-row>
           <base-row class="mb-1">
             <base-col cols="12">
-              <base-btn class="mr-2" :outlined="false" color="primary">
+              <base-btn
+                class="mr-2"
+                :outlined="false"
+                color="primary"
+                @click="$emit('goTo', 'projects')"
+              >
                 <base-icon left>
                   mdi-briefcase
                 </base-icon>
-                Trabalhos
+                Projetos
               </base-btn>
               <base-btn class="mx-2" color="secondary">
                 <base-icon left>
