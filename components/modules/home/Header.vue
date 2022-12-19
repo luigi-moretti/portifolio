@@ -69,18 +69,18 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
-import { SocialMediaI } from '@/models/socialMedia'
+import Vue, { PropType } from 'vue'
+import { ISocialMedia } from '@/models/socialMedia'
 import { IConfigHomePage } from '~/models/configHomePage'
 export default Vue.extend({
   name: 'HomeHeader',
   props: {
     socialMedias: {
-      type: Array as () => SocialMediaI,
+      type: Array as PropType<Array<ISocialMedia>>,
       required: true
     },
     configHomePage: {
-      type: Object as () => IConfigHomePage,
+      type: Object as PropType<IConfigHomePage>,
       required: true
     },
     imageHomePage: {

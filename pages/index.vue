@@ -22,16 +22,7 @@
               sm="6"
               xs="12"
             >
-              <base-card>
-                <base-img
-                  :src="project.headerImage.url"
-                  class="white--text align-end"
-                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                  height="200px"
-                >
-                  <base-card-title v-text="project.title" />
-                </base-img>
-              </base-card>
+              <project-card :project="project" />
             </base-col>
           </base-row>
         </base-col>
@@ -59,13 +50,15 @@
 import Vue from 'vue'
 import { gql } from 'nuxt-graphql-request'
 import HomeHeader from '@/components/modules/home/Header.vue'
+import ProjectCard from '@/components/modules/home/ProjectCard.vue'
 import { ISocialMedia } from '~/models/socialMedia'
 import { IConfigHomePage } from '~/models/configHomePage'
 import { IProject } from '~/models/project'
 export default Vue.extend({
   name: 'IndexPage',
   components: {
-    HomeHeader
+    HomeHeader,
+    ProjectCard
   },
   data: () => ({
     socialMedias: [] as ISocialMedia[],
@@ -152,3 +145,8 @@ export default Vue.extend({
   }
 })
 </script>
+<style scoped>
+  .cursor-pointer {
+    cursor: pointer;
+  }
+</style>
